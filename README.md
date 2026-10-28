@@ -1,4 +1,4 @@
-# Paradise Nursery
+# Paradise Nursery Shopping Application (e-plantShopping)
 
 **Paradise Nursery &mdash; Where Green Meets Serenity.**
 A shopping cart application for an online houseplant shop, built with React and Redux Toolkit.
@@ -11,6 +11,7 @@ adjust quantities, remove items, and see live totals. Checkout is a "Coming Soon
 | | |
 |---|---|
 | **Project name** | Paradise Nursery Shopping Application |
+| **Repository** | e-plantShopping |
 | **Company** | Paradise Nursery |
 | **Tagline** | Where Green Meets Serenity |
 | **Stack** | React 19, Redux Toolkit, React-Redux, Vite |
@@ -24,8 +25,8 @@ adjust quantities, remove items, and see live totals. Checkout is a "Coming Soon
   - Air Purifying Plants
   - Aromatic Fragrant Plants
   - Low-Light Easy Care Plants
-- **Add to Cart** buttons that add the plant, **disable once it is in the cart**, and bump the cart count.
-  Removing a plant from the cart re-enables its button.
+- **Add to Cart** buttons that add the plant, **disable once it is in the cart** (`addedToCart[plant.name]`),
+  and bump the cart count. Removing a plant from the cart re-enables its button.
 - **Navbar** on both the product and cart pages with **Home**, **Plants** and **Cart** links. The cart icon
   shows the total number of plants in the cart and updates live.
 - **Shopping cart page** with, for each plant, a thumbnail, name, unit price, quantity controls (+ / &minus;),

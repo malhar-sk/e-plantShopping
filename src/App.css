@@ -66,16 +66,25 @@ button {
 
 /* ---------- Landing page ---------- */
 .landing-page {
+  position: relative;
   min-height: 100vh;
   color: var(--cream);
   background-color: var(--green-900);
+}
+
+/* Full-bleed image layer behind the landing page content. */
+.background-image {
+  position: absolute;
+  inset: 0;
   background-image: url('./assets/landing-bg.svg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 }
 
-.landing-content {
+.content {
+  position: relative;
+  z-index: 1;
   min-height: 100vh;
   max-width: 1180px;
   margin: 0 auto;
@@ -85,7 +94,7 @@ button {
   align-items: center;
 }
 
-.hero {
+.landing_content {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -104,6 +113,16 @@ button {
   line-height: 1.02;
   letter-spacing: -0.01em;
   text-shadow: 0 2px 18px rgba(0, 0, 0, 0.35);
+}
+
+.hero-welcome {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 0.34em;
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: 0.04em;
+  color: #cfe9d4;
 }
 
 .hero-tagline {
@@ -133,7 +152,7 @@ button {
   transform: translateY(-2px);
 }
 
-.about-us {
+.about-us-container {
   padding: 28px 26px;
   border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: 22px;
@@ -143,12 +162,12 @@ button {
   gap: 14px;
 }
 
-.about-us h2 {
+.about-us-container h2 {
   font-family: var(--font-display);
   font-size: 1.7rem;
 }
 
-.about-us p {
+.about-us-container p {
   color: #dcebdf;
 }
 
@@ -171,7 +190,7 @@ button {
 }
 
 @media (min-width: 960px) {
-  .landing-content {
+  .content {
     grid-template-columns: 1.1fr 1fr;
     gap: 64px;
     padding: 48px 32px;
@@ -251,7 +270,11 @@ button {
   background: rgba(255, 255, 255, 0.2);
 }
 
-.cart-count {
+.cart {
+  display: flex;
+}
+
+.cart_quantity_count {
   min-width: 22px;
   height: 22px;
   padding: 0 6px;
@@ -264,7 +287,7 @@ button {
 }
 
 /* ---------- Product listing ---------- */
-.product-page {
+.product-grid {
   max-width: 1180px;
   margin: 0 auto;
   padding: 36px 20px 64px;
@@ -317,7 +340,7 @@ button {
   margin-top: 44px;
 }
 
-.category-title {
+.plant_heading {
   display: flex;
   align-items: center;
   gap: 16px;
@@ -327,14 +350,14 @@ button {
   color: var(--green-900);
 }
 
-.category-title::after {
+.plant_heading::after {
   content: '';
   flex: 1;
   height: 2px;
   background: linear-gradient(90deg, var(--line), transparent);
 }
 
-.product-grid {
+.product-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
   gap: 22px;
@@ -420,7 +443,7 @@ button {
 }
 
 /* ---------- Cart ---------- */
-.cart-page {
+.cart-container {
   max-width: 900px;
   margin: 0 auto;
   padding: 36px 20px 64px;
@@ -432,13 +455,13 @@ button {
   color: var(--green-900);
 }
 
-.cart-total-amount {
+.total_cart_amount {
   margin: 10px 0 24px;
   font-size: 1.3rem;
   color: var(--muted);
 }
 
-.cart-total-amount strong {
+.total_cart_amount strong {
   color: var(--clay-dark);
   font-size: 1.6rem;
 }
@@ -487,7 +510,7 @@ button {
   background: var(--cream);
 }
 
-.quantity-button {
+.cart-item-button {
   width: 34px;
   height: 34px;
   border: 0;
@@ -502,12 +525,12 @@ button {
   transition: background 0.15s ease, color 0.15s ease;
 }
 
-.quantity-button:hover {
+.cart-item-button:hover {
   background: var(--green-800);
   color: #fff;
 }
 
-.quantity-value {
+.cart-item-quantity-value {
   min-width: 32px;
   font-weight: 700;
   text-align: center;
@@ -531,7 +554,7 @@ button {
   font-weight: 700;
 }
 
-.delete-button {
+.cart-item-delete {
   display: flex;
   align-items: center;
   gap: 6px;
@@ -546,7 +569,7 @@ button {
   transition: background 0.15s ease, color 0.15s ease;
 }
 
-.delete-button:hover {
+.cart-item-delete:hover {
   background: #a43a1b;
   color: #fff;
 }
@@ -573,7 +596,7 @@ button {
   font-size: 1.8rem;
 }
 
-.cart-actions {
+.continue_shopping_btn {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
@@ -697,14 +720,14 @@ button {
     grid-area: details;
   }
 
-  .delete-button {
+  .cart-item-delete {
     grid-area: delete;
     align-self: start;
     justify-self: end;
     padding: 10px;
   }
 
-  .delete-button span {
+  .cart-item-delete span {
     display: none;
   }
 
@@ -717,7 +740,7 @@ button {
     grid-area: total;
   }
 
-  .cart-actions .button {
+  .continue_shopping_btn .button {
     flex: 1;
   }
 }

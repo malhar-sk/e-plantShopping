@@ -1,13 +1,13 @@
 function AboutUs() {
   return (
-    <section className="about-us" aria-labelledby="about-us-heading">
-      <h2 id="about-us-heading">About Paradise Nursery</h2>
-      <p>
+    <div className="about-us-container">
+      <h2 className="about-us-heading">About Paradise Nursery</h2>
+      <p className="about-us-description">
         Paradise Nursery is an online houseplant shop built around one idea: every home deserves a little
         green. We grow, pick and pack plants that are healthy, forgiving and easy to love, whether you are
         buying your first succulent or filling a whole sunroom.
       </p>
-      <p>
+      <p className="about-us-content">
         Our collection is sorted by what a plant does for your space &mdash; purifying the air, filling a
         room with fragrance, or thriving in the dimmest corner &mdash; so you can find the right one without
         guessing.
@@ -26,7 +26,7 @@ function AboutUs() {
           From desk-sized cuttings to statement floor plants.
         </li>
       </ul>
-    </section>
+    </div>
   );
 }
 

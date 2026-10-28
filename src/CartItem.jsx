@@ -4,13 +4,18 @@ import { removeItem, updateQuantity, selectCartItems, selectCartTotal, selectTot
 
 function CartItem({ onContinueShopping }) {
   const dispatch = useDispatch();
-  const cartItems = useSelector(selectCartItems);
+  const cart = useSelector(selectCartItems);
   const totalAmount = useSelector(selectCartTotal);
   const totalQuantity = useSelector(selectTotalQuantity);
   const [showComingSoon, setShowComingSoon] = useState(false);
 
   // Cost of one line in the cart: unit price x quantity.
   const calculateTotalCost = (item) => item.cost * item.quantity;
+
+  const handleContinueShopping = (e) => {
+    e.preventDefault();
+    onContinueShopping();
+  };
 
   const handleIncrement = (item) => {
     dispatch(updateQuantity({ name: item.name, quantity: item.quantity + 1 }));
@@ -43,25 +48,27 @@ function CartItem({ onContinueShopping }) {
   }, [showComingSoon]);
 
   return (
-    <main className="cart-page">
+    <main className="cart-container">
       <h1 className="cart-title">Shopping Cart</h1>
 
-      {cartItems.length === 0 ? (
+      {cart.length === 0 ? (
         <div className="cart-empty">
           <p className="cart-empty-title">Your cart is empty</p>
           <p>Add a few plants and they will show up here.</p>
-          <button type="button" className="button button-primary" onClick={onContinueShopping}>
-            Continue Shopping
-          </button>
+          <div className="continue_shopping_btn">
+            <button type="button" className="button button-primary" onClick={handleContinueShopping}>
+              Continue Shopping
+            </button>
+          </div>
         </div>
       ) : (
         <>
-          <p className="cart-total-amount">
+          <p className="total_cart_amount">
             Total Cart Amount: <strong>${totalAmount}</strong>
           </p>
 
           <ul className="cart-list">
-            {cartItems.map((item) => (
+            {cart.map((item) => (
               <li key={item.name} className="cart-item">
                 <img className="cart-item-image" src={item.image} alt={item.name} width="96" height="96" />
 
@@ -73,18 +80,18 @@ function CartItem({ onContinueShopping }) {
                 <div className="cart-item-quantity" role="group" aria-label={`Quantity of ${item.name}`}>
                   <button
                     type="button"
-                    className="quantity-button"
+                    className="cart-item-button cart-item-button-dec"
                     onClick={() => handleDecrement(item)}
                     aria-label={`Decrease quantity of ${item.name}`}
                   >
                     &minus;
                   </button>
-                  <span className="quantity-value" aria-live="polite">
+                  <span className="cart-item-quantity-value" aria-live="polite">
                     {item.quantity}
                   </span>
                   <button
                     type="button"
-                    className="quantity-button"
+                    className="cart-item-button cart-item-button-inc"
                     onClick={() => handleIncrement(item)}
                     aria-label={`Increase quantity of ${item.name}`}
                   >
@@ -99,7 +106,7 @@ function CartItem({ onContinueShopping }) {
 
                 <button
                   type="button"
-                  className="delete-button"
+                  className="cart-item-delete"
                   onClick={() => handleRemove(item)}
                   aria-label={`Delete ${item.name} from cart`}
                 >
@@ -128,8 +135,8 @@ function CartItem({ onContinueShopping }) {
             </p>
           </div>
 
-          <div className="cart-actions">
-            <button type="button" className="button button-secondary" onClick={onContinueShopping}>
+          <div className="continue_shopping_btn">
+            <button type="button" className="button button-secondary" onClick={handleContinueShopping}>
               Continue Shopping
             </button>
             <button type="button" className="button button-primary" onClick={handleCheckoutShopping}>

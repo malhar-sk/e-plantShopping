@@ -146,8 +146,9 @@ function ProductList({ onHomeClick }) {
   const totalQuantity = useSelector(selectTotalQuantity);
   const [showCart, setShowCart] = useState(false);
 
-  // A plant's button is disabled for as long as it is in the cart, so removing it from the cart re-enables it.
-  const isInCart = (plantName) => cartItems.some((item) => item.name === plantName);
+  // { 'Snake Plant': true, ... } for every plant currently in the cart. It is derived from the Redux cart, so a
+  // plant's button stays disabled only while it is in the cart and re-enables if it is deleted there.
+  const addedToCart = cartItems.reduce((added, item) => ({ ...added, [item.name]: true }), {});
 
   const handleAddToCart = (plant) => {
     dispatch(addItem(plant));
@@ -208,20 +209,22 @@ function ProductList({ onHomeClick }) {
               aria-label={`Cart, ${totalQuantity} ${totalQuantity === 1 ? 'item' : 'items'}`}
               onClick={handleCartClick}
             >
-              <svg className="cart-icon" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">
-                <path
-                  d="M3 4h2.2l2.1 10.2a1.5 1.5 0 0 0 1.5 1.2h8.4a1.5 1.5 0 0 0 1.5-1.1L20.4 8H6.1"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.8"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <circle cx="9.5" cy="19.2" r="1.5" fill="currentColor" />
-                <circle cx="16.5" cy="19.2" r="1.5" fill="currentColor" />
-              </svg>
+              <span className="cart" aria-hidden="true">
+                <svg className="cart-icon" viewBox="0 0 24 24" width="24" height="24">
+                  <path
+                    d="M3 4h2.2l2.1 10.2a1.5 1.5 0 0 0 1.5 1.2h8.4a1.5 1.5 0 0 0 1.5-1.1L20.4 8H6.1"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <circle cx="9.5" cy="19.2" r="1.5" fill="currentColor" />
+                  <circle cx="16.5" cy="19.2" r="1.5" fill="currentColor" />
+                </svg>
+              </span>
               <span aria-hidden="true">Cart</span>
-              <span className="cart-count" aria-hidden="true">
+              <span className="cart_quantity_count" aria-hidden="true">
                 {totalQuantity}
               </span>
             </a>
@@ -232,7 +235,7 @@ function ProductList({ onHomeClick }) {
       {showCart ? (
         <CartItem onContinueShopping={() => setShowCart(false)} />
       ) : (
-        <main className="product-page">
+        <main className="product-grid">
           <header className="product-page-header">
             <h1>Our Plants</h1>
             <p>Pick the plants that suit your space. Add as many as you like, then head to your cart.</p>
@@ -247,11 +250,9 @@ function ProductList({ onHomeClick }) {
 
           {plantsArray.map((group) => (
             <section key={group.category} id={slugify(group.category)} className="category">
-              <h2 className="category-title">{group.category}</h2>
-              <div className="product-grid">
-                {group.plants.map((plant) => {
-                  const added = isInCart(plant.name);
-                  return (
+              <h2 className="plant_heading">{group.category}</h2>
+              <div className="product-list">
+                {group.plants.map((plant) => (
                     <article key={plant.name} className="product-card">
                       <img
                         className="product-image"
@@ -259,7 +260,6 @@ function ProductList({ onHomeClick }) {
                         alt={plant.name}
                         width="400"
                         height="400"
-                        loading="lazy"
                       />
                       <div className="product-body">
                         <h3 className="product-title">{plant.name}</h3>
@@ -268,17 +268,16 @@ function ProductList({ onHomeClick }) {
                           <span className="product-price">${plant.cost}</span>
                           <button
                             type="button"
-                            className="product-button"
+                            className={`product-button ${addedToCart[plant.name] ? 'added-to-cart' : ''}`}
                             onClick={() => handleAddToCart(plant)}
-                            disabled={added}
+                            disabled={addedToCart[plant.name]}
                           >
-                            {added ? 'Added to Cart' : 'Add to Cart'}
+                            {addedToCart[plant.name] ? 'Added to Cart' : 'Add to Cart'}
                           </button>
                         </div>
                       </div>
                     </article>
-                  );
-                })}
+                ))}
               </div>
             </section>
           ))}
